@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+
+{% block css %}
+{% endblock %}
+
+{% block title %} Welcome|Training and Placement Cell IIT BHU Varanasi{% endblock %}
+
+
+{% block content %}
+
+<table  width=70%; height=504px; style="margin:auto;background-color:#F4DECB;" >
+    		<tr>
+    			<td>
+    					<div class="slideshow-container">
+
+							<div class="mySlides fade">
+							  <div class="numbertext">1 / 3</div>
+							  <img src="/static/images/1.jpg" style="width:100%" height="500">
+							  <div class="text"></div>
+							</div>
+
+							<div class="mySlides fade">
+							  <div class="numbertext">2 / 3</div>
+							  <img src="/static/images/2.jpg" style="width:100%" height="500">
+							  <div class="text"></div>
+							</div>
+
+							<div class="mySlides fade">
+							  <div class="numbertext">3 / 3</div>
+							  <img src="/static/images/3.jpg" style="width:100%" height="500">
+							  <div class="text"></div>
+							</div>
+
+						</div>
+							<br>
+
+							<div style="text-align:center">
+							  <span class="dot"></span> 
+							  <span class="dot"></span> 
+							  <span class="dot"></span> 
+							</div>
+
+							<script>
+							var slideIndex = 0;
+							showSlides();
+
+							function showSlides() {
+							    var i;
+							    var slides = document.getElementsByClassName("mySlides");
+							    var dots = document.getElementsByClassName("dot");
+							    for (i = 0; i < slides.length; i++) {
+							       slides[i].style.display = "none";  
+							    }
+							    slideIndex++;
+							    if (slideIndex> slides.length) {slideIndex = 1}    
+							    for (i = 0; i < dots.length; i++) {
+							        dots[i].className = dots[i].className.replace(" active", "");
+							    }
+							    slides[slideIndex-1].style.display = "block";  
+							    dots[slideIndex-1].className += " active";
+							    setTimeout(showSlides, 2000); // Change /static/images every 2 seconds
+							}
+							</script>
+    			</td>
+    		</tr>
+    		<tr>	
+    			<td>
+    			      <div style="font-size:16px; font-family:verdana; color:#49274A;margin-right: 50px; margin-left: 50px;margin-top: 30px; margin-bottom: 40px;">
+							 
+							 The Training & Placement Office, IIT (BHU) Varanasi facilitates the process of placement of students passing out from the Institute besides collaborating with leading organizations and institutes in setting up of internship and training program of students. The office liaises with various industrial establishments, corporate houses etc which conduct campus interviews and select graduate and post-graduate students from all disciplines. The Training & Placement Office provides the infra-structural facilities to conduct group discussions, tests and interviews besides catering to other logistics. The Office interacts with many industries in the country, of which nearly 200 companies visit the campus for holding campus interviews. The industries which approach the institute come under the purview of: Core Engineering industries IT & IT enabled services Manufacturing Industries Consultancy Firms Finance Companies Management Organisations R & D laboratories.
+
+							The placement season runs through the course of the year commencing the last week of July through to March.
+							 Pre-Placement Talks are also conducted in this regard as per mutual convenience. Job offers, dates of interviews,
+							  selection of candidates etc. are announced through the Training & Placement Office. The Placement Office is 
+							  assisted by a committee comprising representatives of students from the under-graduate and post-graduate 
+							  engineering streams. The committee evolves a broad policy framework every year besides a set of rules which 
+							  are inviolable. Students members are closely co-opted in implementing these policy decisions.	
+					  </div>
+		   		</td>
+		    </tr>
+		    	
+    		
+		</table>
+		<table width=70%; height=504px; style="margin:auto;background-color:white;" >
+			<tr>
+		    	<td width=50%;>
+		    			<table>
+		    				<tr>
+		    					<td style="text-align:center;">
+		    						<div style="background-color:#49274A;border-right:2px solid red;border-top-right-radius:20px;border-bottom-right-radius:20px;color:white;padding:10px 10px 10px 10px;margin-left:0px;">
+		    						&nbsp;&nbsp;
+		    						<div>
+		    					</td>
+		    					<td>
+		    						<img src="/static/images/director.jpg" style="border:5px solid #49274A;border-radius:44px;width:80px;height:80px;margin-left:0px;margin-right:0px;">
+
+		    					</td>
+		    					<td style="text-align:center;">
+		    						<div style="background-color:#49274A;border-left:2px solid red;border-top-left-radius:20px;border-bottom-left-radius:20px;color:white;padding:10px 10px 10px 10px;margin-left:0px;">
+		    						Director's Massage
+		    						<div>
+		    					</td>	
+		    				</tr>	
+		    			</table>
+
+		    	</td>
+		    	<td width=50%;>
+		    			<table>
+		    				<tr>
+		    					<td style="text-align:center;">
+		    						<div style="background-color:#49274A;border-right:2px solid red;border-top-right-radius:20px;border-bottom-right-radius:20px;color:white;padding:10px 10px 10px 10px;margin-left:0px;">
+		    						&nbsp;&nbsp;
+		    						<div>
+		    					</td>
+		    					<td>
+		    						<img src="/static/images/incharge.jpg" style="border:5px solid #49274A;border-radius:44px;width:80px;height:80px;margin-left:0px;margin-right:0px;">
+
+		    					</td>
+		    					<td style="text-align:center;">
+		    						<div style="background-color:#49274A;border-left:2px solid red;border-top-left-radius:20px;border-bottom-left-radius:20px;color:white;padding:10px 10px 10px 10px;margin-left:0px;">
+		    						Incharge's Massage
+		    						<div>
+		    					</td>	
+		    				</tr>	
+		    			</table>
+
+		    	</td>
+	
+
+		    </tr>
+		    <tr>
+		    	<td width=50%;>
+		    		<div style="padding:10px 10px 10px 10px;color:#49274A;background-color:#ffffff;font-family:verdana;word-break: break-all;">
+		    			Greetings from Indian Institute of Technology (BHU) Varanasi !<br>
+
+							Knowledge and continuous learning are the mainstays amongst the leading organizations today. In view of this requirement and the visions and ideals of its illustrious founder Pt. Madan Mohan Malviyaji, Indian Institute of Technology (BHU) Varanasi grooms its students with a perfect blend of academics, core competencies, ethics and values so that they evolve and succeed in every sphere of their life in our radical and complex society.<br>
+
+							 It gives me immense pleasure to welcome organizations to campus recruitment program at our institute. It is my earnest belief that the training of academically wholesome life at IIT (BHU) Varanasi had prepared our students to face any challenges and take on responsible positions in the corporate world.<br>
+
+							I am sure that students selected by your organization shall excel and achieve beyond your expectations and they will prove to be an asset to your organization. I wish all the best to the campus recruitment program and all students in their endeavors. I hope that recruiting organizations will be able to derive immense benefit through this program and would go a long way to build a long lasting and fruitful mutual relationship. <br>
+
+							We look forward to your visit to our campus soon. <br>
+		    		</div>	
+		    	</td>
+		    	<td width=50%;>
+		    		<div style="padding:10px 10px 10px 10px;color:#49274A;background-color:#ffffff;font-family:verdana;word-break: break-all;">
+		    			GIt gives us immense pleasure to extend to you a most cordial invitation to participate in the Campus Recruitment Programme of the Indian Institute of Technology (BHU), Varanasi. With an increasing thrust being placed on Institute-Industry Interaction, it is my sincere belief that your esteemed organization and IIT (BHU) Varanasi stand to gain immensely from this symbiotic relationship.<br>
+
+						Our Institute holds the pride of place being pioneers in the field of engineering and technical education in the country and has a glorious heritage. We have been continuously ranked among the elite by our peers and our constant pursuit of excellence has made our institute a focal point in technical education for students and faculty members alike. Admissions to the institute take place through the reputed Joint Entrance Examination (JEE).<br>
+
+						At IIT (BHU) Varanasi, we take care to groom our students according to the needs of the industry. We seek to open frontiers of knowledge and reveal new horizons of change, to broaden mindsets and to create positive attitudes in our students. Our students get a lot of industrial exposure by their frequent industrial visits. Besides, our undergraduate students undergo an eight-week training in their summer vacations in reputed industries/institutions/organizations (in India as well as abroad), as part of their academic requirements. 
+
+		    		</div>	
+		    	</td>	
+		    </tr>	
+
+		</table>
+		<table  width=70%; height=504px; style="margin:auto;background-color:#F4DECB;" >
+    		<tr>
+    			<td>
+    					<div  style="font-size:25px;color:#49274A;font-family:verdana;font-weight: bold;margin-left:10px;border-top:2px solid #49274A;display:inline-block;">
+								Our Past Recruiters :
+						</div>
+    					<div id="id7">
+
+							<div style="width=5%;height=200px; margin-top:100px;" >
+                                <i class="fa fa-chevron-left"></i>
+							</div>	
+							<div id="id1" style="width=16%;">
+							  <img src="/static/images/5.png"  width=100%; height=200px;>
+							</div>
+							<div id="id2" style="width=16%;">
+							  <img src="/static/images/5.png"  width=100%; height=200px;>
+							</div>
+							<div id="id3" style="width=16%;">
+							  <img src="/static/images/5.png"  width=100%; height=200px;>
+							</div>
+							<div id="id4" style="width=16%;">
+							  <img src="/static/images/5.png"  width=100%; height=200px;>
+							</div>						 
+							<div id="id5" style="width=16%;">
+							  <img src="/static/images/5.png"  width=100%; height=200px;>
+							</div>
+							<div style="width=5%;height=200px; margin-top:100px;" >
+                                <i class="fa fa-chevron-right"></i>
+							</div>
+							
+
+							
+
+						</div>
+							<br>
+
+							<div style="text-align:center">
+							  <span class="dot"></span> 
+							  <span class="dot"></span> 
+							  <span class="dot"></span> 
+							</div>
+							<script>
+							var showIndex = 0;
+							show();
+							var arr=["1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png","9.png"];
+
+							function show() {
+								var arr=["1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png","9.png"];
+							    document.getElementById("id1").innerHTML="<img src='/static/images/"+arr[(showIndex)%5]+"' width=100%; height=200px; >";
+							    document.getElementById("id2").innerHTML="<img src='/static/images/"+arr[(showIndex+1)%5]+"' width=100%; height=200px; >";
+							    document.getElementById("id3").innerHTML="<img src='/static/images/"+arr[(showIndex+2)%5]+"' width=100%; height=200px; >";
+							    document.getElementById("id4").innerHTML="<img src='/static/images/"+arr[(showIndex+3)%5]+"' width=100%; height=200px; >";
+							    document.getElementById("id5").innerHTML="<img src='/static/images/"+arr[(showIndex+4)%5]+"' width=100%; height=200px; >";
+							    showIndex++;   
+							    
+		 
+							    
+							    setTimeout(show, 1000); // Change /static/images every 2 seconds
+							}
+							</script>
+
+							
+    			</td>
+    		</tr>
+    		</table>	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var t = $('#list1, #list2').DataTable({
+		"pageLength": 50,
+		"columnDefs": [ {
+			"searchable": true,
+			"orderable": true,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]]
+	});
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+	t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		cell.innerHTML = i+1;
+	} );
+} ).draw();
+</script>
+
+
+{% endblock %}

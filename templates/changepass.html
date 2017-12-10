@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Login{% endblock %}
+{% block css %}
+<style type="text/css">
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+#overlay div {
+     width:400px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="row side-margin-zero">
+  <div class="col-xs-12 contacts">
+
+
+        <div class="col-md-12 ">
+          <h1 class = "side_heading">Login Form</h1><br>
+          
+
+        </div>
+    
+
+      
+
+  </div>
+  <div class="col-sm-1 col-md-3 col-centered " ></div>
+  <div class = "form-group container ">
+  <div class="row">
+  <div class="col-sm-3 col-md-6 col-centered " >
+  <h1 align="center">Login </h1>
+    <form action={%url 'ChangePass' %} method = "POST">
+      {%csrf_token%}
+      
+      {% include 'includes/bs4_form.html' with form=form %}
+    
+      <button type="submit" name="submit">Change Password</button>
+    </form>
+  </div>
+  </div>
+  </div>
+  
+  
+
+  
+</div>
+{% endblock %}
+{% block js%}
+<script type="text/javascript">
+  var t = $('#acad_table').DataTable({
+    "pageLength": 50,
+    "columnDefs": [ {
+      "searchable": true,
+      "orderable": true,
+      "targets": 0
+    } ],
+    "order": [[ 1, 'asc' ]]
+  });
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+  t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    cell.innerHTML = i+1;
+  } );
+} ).draw();
+function overlay() {
+  console.log("Function Called");
+  el = document.getElementById("overlay");
+  el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+function view(){
+  el = document.getElementById("modal1");
+  
+
+
+}
+
+</script>
+
+
+
+{% endblock %}
+
+
+</html>

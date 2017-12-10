@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Student Dashboard{% endblock %}
+{% block css %}
+<link rel = "stylesheet" href = "user_details.css" >
+<style type="text/css">
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+#overlay div {
+     width:300px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 4c100px}
+    
+    /* Set gray backgrouund color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: auto;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+</style>
+<link href={% static "builds/css/user_details.css" %} rel="stylesheet">
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="row content">
+  <div class="container-fluid text-center">    
+    	<div class="col-sm-1"></div>
+
+  	
+  		<div class="col-sm-10 text-left user-details">
+              <div class="user-image">
+                  <img src="http://www.freeiconspng.com/uploads/am-a-19-year-old-multimedia-artist-student-from-manila--21.png" alt="Profile" title="Karan Singh Sisodia" class="img-circle">
+              </div>
+              <div class="user-info-block">
+                  <div class="user-heading">
+                      <h3>{{ name }}</h3>
+                      <span class="help-block">{{ request.session.user_email }}</span>
+                  </div>
+                  <ul class="navigation">
+                      <li class="active">
+                          <a data-toggle="tab" href="#information">
+                              <span class="glyphicon glyphicon-user"></span>
+                          </a>
+                      </li>
+                      <li>
+                          <a data-toggle="tab" href="#settings">
+                              <span class="glyphicon glyphicon-cog"></span>
+                          </a>
+                      </li>
+                      <li>
+                          <a data-toggle="tab" href="#email">
+                              <span class="glyphicon glyphicon-envelope"></span>
+                          </a>
+                      </li>
+                      <li>
+                          <a data-toggle="tab" href="#events">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                          </a>
+                      </li>
+                  </ul>
+                  <div class="user-body">
+                      <div class="tab-content">
+                      		
+                          <div id="information" class="tab-pane active">
+								<h1>User Info</h1>
+                              <h3>Name :{{name}}</h3><br>
+                              <h3>Roll No.{{roll_no}}</h3><br>
+                              <h3>Department:{{department}}</h3><br>
+                              <h3>Course :{{course}}</h3><br>
+
+                          </div>
+                          <div id="settings" class="tab-pane">
+                              <div class="table-responsive">
+							<h1>Academic Details</h1>
+							<table id="acad_table" class="display" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>SN</th>
+										
+										<th>Semester</th>
+										<th>Semester GPA</th>
+										<th>Summer Updated GPA</th>
+										<th>Backlogs</th>
+										<th>Verified by</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									{% for each in objects %}
+									<tr>
+										<td></td>
+
+										
+										<td>{{each.semester}}</td>
+										<td> {{each.sem_cgpa}} </td>
+										<td>{{each.summer_cgpa}} </td>
+										<td>{{each.backlogs}}</td>
+										<td> {{each.verified_by}} </td>
+										
+										
+
+									</tr>
+
+									{% endfor %}
+								</tbody>
+
+							</table>
+							 <button type="button" class="btn btn-default btn-lg"  onclick="overlay()">Update Details</button>
+
+							</div>
+
+
+                          </div>
+                          <div id="email" class="tab-pane">
+                              
+								<h1>Message</h1>
+                              
+									<div id="postlist" width="100%">
+										{% for post in notifications%}
+										<div class="panel">
+							                <div class="panel-heading">
+							                    <div class="text-center">
+							                        <div class="row">
+							                            <div class="col-sm-9">
+							                                <h5 class="pull-left">Notification</h5>
+							                            </div>
+							                            <div class="col-sm-3">
+							                                <h4 class="pull-right">
+							                                <small><em>{{ post.date }}<br>{{ post.time}}</em></small>
+							                                </h4>
+							                            </div>
+							                        </div>
+							                    </div>
+							                </div>
+							                
+							            <div class="panel-body">
+							                {{ post.content }}
+							            </div>
+							            
+							            <div class="panel-footer">
+							            	{% if post.allowed_students %}
+							                <span class="label label-default">Company Notification</span>
+							                {% else %} 
+							                <span class="label label-default">Student Notification</span> 
+							                {% endif %}
+							            	
+							            </div>
+							        </div>
+							        {% endfor %}
+
+
+                          		</div>
+                      		
+                      	</div>
+                          <div id="events" class="tab-pane">
+                             <h1>Oppurtunities</h1>
+                             <div class="table-responsive">
+				
+							<table id="company_table" class="display" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>SN</th>
+										
+										<th>Company</th>
+										<th>Course</th>
+										<th>Type</th>
+										<th>GPA Required</th>
+										<th>Branch Issue Date</th>
+										<th>Willingness Deadline</th>
+										<th>Result Date</th>
+										<th>Slot.</th>
+										<th>Fill Willingness(Preference)</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									{% for each in companies %}
+									<tr>
+										<td></td>
+
+										
+										<td>{{each.company}}</td>
+										<td>{{each.course}}</td>
+										<td>{{each.type}}</td>
+										<td>{{each.gpa_req}}</td>
+										<td> {{each.branch_issue_date}} </td>
+										<td>{{each.willingness_deadline}} </td>
+										<td>{{each.result_date}}</td>
+										<td> {{each.slt_number}} </td>
+										<td>
+		        						<form name="choice" class="choiceform" method="POST">
+		        							{% csrf_token %}
+		        							<input style="display: none;" type="text" name="company_key" value="{{each.company_id}}" readonly>
+		        							<input style="display: none;" type="text" name="company_course" value="{{each.course}}" readonly>
+		        							<input style="display: none;" type="text" name="company_type" value="{{each.type}}" readonly>
+		        							<input type="number" name="preference" />
+		        							<button type="submit" class="btn btn-primary btn-sm send_choice">Fill Willingness</button>
+		        						</form>
+		        						</td>
+										
+
+									</tr>
+
+									{% endfor %}
+								</tbody>
+
+							</table>
+							 
+
+							</div>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+  	
+    </div>
+
+</div>
+<!-- For Dialog box -->
+<div id="overlay">
+	<div>
+    <form action="{% url "studentAcademicDetail" %}" method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input id="task_submit" class = "btn btn-default" type="submit" value="Submit"/>
+
+    </form>
+     <button type="button" class="btn btn-default"  onclick="overlay()">Close Dialog</button>
+	</div>
+</div>
+{% endblock %}
+{% block js%}
+<script type="text/javascript">
+	var t = $('#acad_table,#company_table').DataTable({
+		"pageLength": 50,
+		"columnDefs": [ {
+			"searchable": true,
+			"orderable": true,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]]
+	});
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+	t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		cell.innerHTML = i+1;
+	} );
+} ).draw();
+function overlay() {
+	console.log("Function Called");
+	el = document.getElementById("overlay");
+	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+
+
+
+</script>
+
+
+
+{% endblock %}
+
+
+</html>

@@ -1,0 +1,11 @@
+Django==1.11
+django-appconf==1.0.2
+django-compress==1.0.1
+django-compressor==2.2
+django-pagination==1.0.7
+django-simple-pagination==1.1.8
+django-widget-tweaks==1.4.1
+MySQL-python==1.2.5
+pytz==2017.2
+rcssmin==1.0.6
+rjsmin==1.0.12

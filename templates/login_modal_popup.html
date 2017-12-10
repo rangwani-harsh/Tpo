@@ -1,0 +1,41 @@
+
+
+<!--Login Model-->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="loginmodal-container">
+
+			<h1>Login to Your Account</h1><br>
+
+			<div class="socialaccount_ballot">
+				
+
+				<form class="login" method="POST" action="/login/">
+					{% csrf_token %}
+					<p><label for="id_email">Login(Email):</label>  <input type="email" name="email" required="" id="id_email" \></p>
+					<p><label for="id_password">Password:</label> <input id="id_password" name="password" placeholder="Password" type="password" /></p>
+					<p><label for="id_user">User Type:</label> <select name="user" id="id_user">
+						  <option value="0">Student</option>
+
+						  <option value="1">Company</option>
+
+						  <option value="2">Team Member</option>
+
+					</select></p>
+
+					<p>
+						<button class="login loginmodal-submit bg-green" type="submit">Sign In</button>
+					</p>
+				</form>
+
+				<!-- <p>Forgot password? <a href="/accounts/password/reset/">Reset it !</a></p> -->
+				<!-- <p>If you have not created an account yet, then please
+					<a href="/accounts/signup/">sign up</a> first.
+				</p> -->
+
+			</div>
+
+
+            </div>
+        </div>
+    </div><!--END Login Model-->

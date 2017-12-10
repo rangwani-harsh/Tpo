@@ -1,0 +1,618 @@
+-- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
+--
+-- Host: localhost    Database: tpo
+-- ------------------------------------------------------
+-- Server version	5.7.20-0ubuntu0.16.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `AcademicDetail`
+--
+
+DROP TABLE IF EXISTS `AcademicDetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AcademicDetail` (
+  `student_id` int(11) NOT NULL,
+  `semester` int(11) NOT NULL,
+  `roll_no` varchar(15)  NOT NULL,
+  `department` varchar(15)  NOT NULL,
+  `course` varchar(15) DEFAULT NULL,
+  `sem_cgpa` float NOT NULL,
+  `summer_cgpa` float DEFAULT NULL,
+  `backlogs` int(11) DEFAULT NULL,
+  `verified_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`student_id`,`semester`),
+  KEY `verified_by` (`verified_by`),
+  CONSTRAINT `AcademicDetail_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `Student` (`student_id`),
+  CONSTRAINT `AcademicDetail_ibfk_2` FOREIGN KEY (`verified_by`) REFERENCES `Team` (`member_id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AcademicDetail`
+--
+
+LOCK TABLES `AcademicDetail` WRITE;
+/*!40000 ALTER TABLE `AcademicDetail` DISABLE KEYS */;
+INSERT INTO `AcademicDetail` VALUES (2,1,'15075014','cse','btech',7.89,7.89,0,NULL);
+/*!40000 ALTER TABLE `AcademicDetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Company`
+--
+
+DROP TABLE IF EXISTS `Company`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Company` (
+  `company_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30)  NOT NULL,
+  `email` varchar(30)  NOT NULL,
+  `ppt_date` date  NOT NULL,
+  `status` int(11)  NOT NULL,
+  `interview_date` date  NOT NULL,
+  `package_take_home` int(11)  NOT NULL,
+  `package_ctc` int(11) DEFAULT NULL,
+  `jd` text,
+  `password` varchar(255)  NOT NULL,
+  PRIMARY KEY (`company_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Company`
+--
+
+LOCK TABLES `Company` WRITE;
+/*!40000 ALTER TABLE `Company` DISABLE KEYS */;
+INSERT INTO `Company` VALUES (2,'Google','himank@gmail.com','2017-10-09',NULL,'2017-10-10',100000,123444,'dsadasd','123456'),(3,'Google','lary@google.co.in','2017-10-09',NULL,'2017-10-10',10000,10000,'SDE','123456'),(4,'Quora','adam@quora.com','2017-10-09',NULL,'2017-10-10',100000,100000,'Reasearch SDE.','pbkdf2_sha256$36000$gFwon2cRGDZ0$NquolC7K2CWe6yDU6qBT6tnF6o/XKAMGpKQlWEYlUvc='),(6,'Quora','harsh@gmail.com','2017-10-09',NULL,'2017-10-10',100000,100000,'SDE2','pbkdf2_sha256$36000$3auEm8CwEztf$5KaMjmg+CmdVwCAHLrUP9LiXf2q7kpnZQePS/PAhiGY='),(7,'Wipro','ramroy@wipro.com','2017-10-09',NULL,'2017-10-10',120000,12000,'Analyst Profile','pbkdf2_sha256$36000$j3Ifu9c5lw5z$KlASZywy1Zt6hw81k+MMRvKbUyuhIyjBX1O5YDGz9XM=');
+/*!40000 ALTER TABLE `Company` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Files`
+--
+
+DROP TABLE IF EXISTS `Files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Files` (
+  `company_id` int(11) NOT NULL,
+  `course` varchar(10) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `member_id` int(11) DEFAULT NULL,
+  `preference` int(11) DEFAULT NULL,
+  PRIMARY KEY (`company_id`,`course`,`type`,`student_id`),
+  KEY `student_id` (`student_id`),
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `Files_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `Student` (`student_id`) ON DELETE CASCADE,
+  CONSTRAINT `Files_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `Team` (`member_id`) ON DELETE SET NULL,
+  CONSTRAINT `Files_ibfk_3` FOREIGN KEY (`company_id`, `course`, `type`) REFERENCES `Willingness` (`company_id`, `course`, `type`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Files`
+--
+
+LOCK TABLES `Files` WRITE;
+/*!40000 ALTER TABLE `Files` DISABLE KEYS */;
+INSERT INTO `Files` VALUES (4,'btech','Full Time',2,NULL,1);
+/*!40000 ALTER TABLE `Files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ForumPost`
+--
+
+DROP TABLE IF EXISTS `ForumPost`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ForumPost` (
+  `student_id` int(11) NOT NULL,
+  `time_stamp` datetime NOT NULL,
+  `content` text,
+  `TITLE` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`student_id`,`time_stamp`),
+  CONSTRAINT `ForumPost_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `Student` (`student_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ForumPost`
+--
+
+LOCK TABLES `ForumPost` WRITE;
+/*!40000 ALTER TABLE `ForumPost` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ForumPost` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Notification`
+--
+
+DROP TABLE IF EXISTS `Notification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Notification` (
+  `member_id` int(11) NOT NULL,
+  `time_stamp` datetime NOT NULL,
+  `views` int(11) DEFAULT NULL,
+  `content` text,
+  `ALLOWED` int(11) DEFAULT NULL,
+  PRIMARY KEY (`member_id`,`time_stamp`),
+  CONSTRAINT `Notification_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `Team` (`member_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Notification`
+--
+
+LOCK TABLES `Notification` WRITE;
+/*!40000 ALTER TABLE `Notification` DISABLE KEYS */;
+INSERT INTO `Notification` VALUES (1,'2017-10-30 21:30:30',1,'Hello World',0),(1,'2017-10-31 09:36:00',1,'Willingness for Falano',0),(1,'2017-10-31 09:42:50',1,'Willingness for Falano',0),(1,'2017-11-04 12:26:19',1,'Placement Cell is proud to ann',1),(1,'2017-11-04 12:31:34',1,'Please make account on github',0);
+/*!40000 ALTER TABLE `Notification` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Service`
+--
+
+DROP TABLE IF EXISTS `Service`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Service` (
+  `service_id` int(11) NOT NULL AUTO_INCREMENT,
+  `service_name` varchar(50) DEFAULT NULL,
+  `service_date` date DEFAULT NULL,
+  `service_time` time DEFAULT NULL,
+  `payment` int(11) DEFAULT NULL,
+  `responsible_id` int(11) DEFAULT NULL,
+  `description` text,
+  `company_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`service_id`),
+  KEY `responsible_id` (`responsible_id`),
+  KEY `company_id` (`company_id`),
+  CONSTRAINT `Service_ibfk_1` FOREIGN KEY (`responsible_id`) REFERENCES `Team` (`member_id`) ON DELETE SET NULL,
+  CONSTRAINT `Service_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `Company` (`company_id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Service`
+--
+
+LOCK TABLES `Service` WRITE;
+/*!40000 ALTER TABLE `Service` DISABLE KEYS */;
+INSERT INTO `Service` VALUES (3,'Cab Service','2017-10-23','09:30:00',1000,NULL,'Cab Service from airport to IIT BHU Campus',NULL),(4,'Hotel Service','2017-09-10','09:20:30',1000,1,'Guest house rooms 3',NULL);
+/*!40000 ALTER TABLE `Service` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Slot`
+--
+
+DROP TABLE IF EXISTS `Slot`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Slot` (
+  `result_date` date NOT NULL,
+  `slt_number` int(11) NOT NULL,
+  `limi` int(11) DEFAULT NULL,
+  PRIMARY KEY (`result_date`,`slt_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Slot`
+--
+
+LOCK TABLES `Slot` WRITE;
+/*!40000 ALTER TABLE `Slot` DISABLE KEYS */;
+INSERT INTO `Slot` VALUES ('2017-10-20',1,5),('2017-12-01',1,5);
+/*!40000 ALTER TABLE `Slot` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Student`
+--
+
+DROP TABLE IF EXISTS `Student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Student` (
+  `student_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `DOB` date DEFAULT NULL,
+  `category` varchar(10) DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
+  `address` text,
+  `father_name` varchar(30) DEFAULT NULL,
+  `mother_name` varchar(30) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `cgpa` float DEFAULT NULL,
+  PRIMARY KEY (`student_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Student`
+--
+
+LOCK TABLES `Student` WRITE;
+/*!40000 ALTER TABLE `Student` DISABLE KEYS */;
+INSERT INTO `Student` VALUES (1,'Harsh Rangwani','harsh@gmail.com','1996-07-10','Gen','Male','23 Sarvodaya Colony Police Line Ajmer','Rajesh','Sneha','123456',NULL),(2,'Dhiraj Singh','dhiraj@gmail.com','1996-10-04','Gen','Male','23 Sarvodaya Colony Police Line Ajmer','Shyam','Geeta','pbkdf2_sha256$36000$5TDxqAuzQi9N$ykGJQ3DeN40l6k0abuzMso19BnaAlUcKxdLiZuSAc+E=',NULL);
+/*!40000 ALTER TABLE `Student` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Team`
+--
+
+DROP TABLE IF EXISTS `Team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Team` (
+  `member_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `designation` varchar(50) DEFAULT NULL,
+  `department` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `mobile` varchar(15) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`member_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Team`
+--
+
+LOCK TABLES `Team` WRITE;
+/*!40000 ALTER TABLE `Team` DISABLE KEYS */;
+INSERT INTO `Team` VALUES (1,'Himank','INC','apm','himank@gmail.com','94136953','pbkdf2_sha256$36000$WtzPM3T2ygLM$UU/iTjGT/QXZet+5Q4Y97MbgAO9DspPiQ3+No80Ff4o='),(2,'Harsh','Core Team','cer','harsh@gmail.com','9413695230','123456'),(3,'Vinay','Core Team','cer','vinay@tpo.com','9413695230','pbkdf2_sha256$36000$GgjiLps6aZ5J$jx0IoCHGyueIRhC1Qa7mlnG/TpykIhTkb2mM2dH8ZrY=');
+/*!40000 ALTER TABLE `Team` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Willingness`
+--
+
+DROP TABLE IF EXISTS `Willingness`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Willingness` (
+  `company_id` int(11) NOT NULL,
+  `course` varchar(10) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `gpa` float DEFAULT NULL,
+  `exam_date` date DEFAULT NULL,
+  `branch_issue_date` date DEFAULT NULL,
+  `willingness_deadline` date DEFAULT NULL,
+  `result_date` date DEFAULT NULL,
+  `slt_number` int(11) DEFAULT NULL,
+  PRIMARY KEY (`company_id`,`course`,`type`),
+  KEY `result_date` (`result_date`,`slt_number`),
+  CONSTRAINT `Willingness_ibfk_1` FOREIGN KEY (`result_date`, `slt_number`) REFERENCES `Slot` (`result_date`, `slt_number`),
+  CONSTRAINT `Willingness_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `Company` (`company_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Willingness`
+--
+
+LOCK TABLES `Willingness` WRITE;
+/*!40000 ALTER TABLE `Willingness` DISABLE KEYS */;
+INSERT INTO `Willingness` VALUES (4,'btech','Full Time',7,'2017-09-09','2017-09-09','2017-09-09','2017-10-20',1);
+/*!40000 ALTER TABLE `Willingness` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group`
+--
+
+DROP TABLE IF EXISTS `auth_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group`
+--
+
+LOCK TABLES `auth_group` WRITE;
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_group_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`permission_id`),
+  KEY `auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id` (`permission_id`),
+  CONSTRAINT `auth_group__permission_id_1f49ccbbdc69d2fc_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permission_group_id_689710a9a73b7457_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group_permissions`
+--
+
+LOCK TABLES `auth_group_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_permission`
+--
+
+DROP TABLE IF EXISTS `auth_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `content_type_id` int(11) NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
+  CONSTRAINT `auth__content_type_id_508cf46651277a81_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_permission`
+--
+
+LOCK TABLES `auth_permission` WRITE;
+/*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can add permission',2,'add_permission'),(5,'Can change permission',2,'change_permission'),(6,'Can delete permission',2,'delete_permission'),(7,'Can add group',3,'add_group'),(8,'Can change group',3,'change_group'),(9,'Can delete group',3,'delete_group'),(10,'Can add user',4,'add_user'),(11,'Can change user',4,'change_user'),(12,'Can delete user',4,'delete_user'),(13,'Can add content type',5,'add_contenttype'),(14,'Can change content type',5,'change_contenttype'),(15,'Can delete content type',5,'delete_contenttype'),(16,'Can add session',6,'add_session'),(17,'Can change session',6,'change_session'),(18,'Can delete session',6,'delete_session');
+/*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user`
+--
+
+DROP TABLE IF EXISTS `auth_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `email` varchar(254) DEFAULT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user`
+--
+
+LOCK TABLES `auth_user` WRITE;
+/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user_groups`
+--
+
+DROP TABLE IF EXISTS `auth_user_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`group_id`),
+  KEY `auth_user_groups_group_id_33ac548dcf5f8e37_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `auth_user_groups_group_id_33ac548dcf5f8e37_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_user_groups_user_id_4b5ed4ffdb8fd9b0_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_groups`
+--
+
+LOCK TABLES `auth_user_groups` WRITE;
+/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user_user_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_user_user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_user_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`permission_id`),
+  KEY `auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id` (`permission_id`),
+  CONSTRAINT `auth_user_u_permission_id_384b62483d7071f0_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_user_user_permissi_user_id_7f0938558328534a_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_user_permissions`
+--
+
+LOCK TABLES `auth_user_user_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_admin_log`
+--
+
+DROP TABLE IF EXISTS `django_admin_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action_time` datetime(6) NOT NULL,
+  `object_id` longtext,
+  `object_repr` varchar(200) NOT NULL,
+  `action_flag` smallint(5) unsigned NOT NULL,
+  `change_message` longtext NOT NULL,
+  `content_type_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `djang_content_type_id_697914295151027a_fk_django_content_type_id` (`content_type_id`),
+  KEY `django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id` (`user_id`),
+  CONSTRAINT `djang_content_type_id_697914295151027a_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_52fdd58701c5f563_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_admin_log`
+--
+
+LOCK TABLES `django_admin_log` WRITE;
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_content_type`
+--
+
+DROP TABLE IF EXISTS `django_content_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_content_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_label` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_45f3b1d93ec8c61c_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_content_type`
+--
+
+LOCK TABLES `django_content_type` WRITE;
+/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
+INSERT INTO `django_content_type` VALUES (1,'admin','logentry'),(3,'auth','group'),(2,'auth','permission'),(4,'auth','user'),(5,'contenttypes','contenttype'),(6,'sessions','session');
+/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_migrations`
+--
+
+DROP TABLE IF EXISTS `django_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_migrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_migrations`
+--
+
+LOCK TABLES `django_migrations` WRITE;
+/*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2017-10-28 11:46:49.069156'),(2,'auth','0001_initial','2017-10-28 11:46:55.397745'),(3,'admin','0001_initial','2017-10-28 11:46:56.950877'),(4,'contenttypes','0002_remove_content_type_name','2017-10-28 11:46:57.913851'),(5,'auth','0002_alter_permission_name_max_length','2017-10-28 11:46:58.416745'),(6,'auth','0003_alter_user_email_max_length','2017-10-28 11:46:58.919271'),(7,'auth','0004_alter_user_username_opts','2017-10-28 11:46:58.961765'),(8,'auth','0005_alter_user_last_login_null','2017-10-28 11:46:59.468635'),(9,'auth','0006_require_contenttypes_0002','2017-10-28 11:46:59.502396'),(10,'sessions','0001_initial','2017-10-28 11:47:00.004789'),(11,'admin','0002_logentry_remove_auto_add','2017-10-29 17:24:50.328431'),(12,'auth','0007_alter_validators_add_error_messages','2017-10-29 17:24:50.369005'),(13,'auth','0008_alter_user_username_max_length','2017-10-29 17:24:50.696527');
+/*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_session`
+--
+
+DROP TABLE IF EXISTS `django_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) NOT NULL,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_de54fa62` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_session`
+--
+
+LOCK TABLES `django_session` WRITE;
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+INSERT INTO `django_session` VALUES ('1thsl1odzsv8joyldhiw2gkojrk9jv0w','YjZiY2Q2MWExOGUzZWNhZDBjNGVkOTBhNzM3ZDJiYjE2NDI4YTI5OTp7InVzZXJfaWQiOjEsInVzZXJfdHlwZSI6MCwidXNlcl9lbWFpbCI6ImhhcnNoQGdtYWlsLmNvbSJ9','2017-11-22 14:06:51.879722'),('b1g7618ndet4ei8ozaf6aadrd61xuh89','YjRiMGEwZTQwM2RjMTY5ZjZkMzdmZTRjOTI4ZmJkOTkxMzk5MjJjNTp7InVzZXJfaWQiOm51bGwsInVzZXJfdHlwZSI6bnVsbCwidXNlcl9lbWFpbCI6bnVsbH0=','2017-11-24 05:26:19.586738'),('ckcaidxx1ld7dhe5demkxorwv9f2c1hd','MTg4ZmQ5NWViNzA0MzBjNzgyM2Q5NjNiOWM1MmUxMzFlNDRhNTdhZTp7InVzZXJfaWQiOjIsInVzZXJfdHlwZSI6MCwidXNlcl9lbWFpbCI6ImRoaXJhakBnbWFpbC5jb20ifQ==','2017-11-23 10:09:40.257242'),('d7fwk7q62nuzjf9fvfg74jwqtlog39ag','YjRiMGEwZTQwM2RjMTY5ZjZkMzdmZTRjOTI4ZmJkOTkxMzk5MjJjNTp7InVzZXJfaWQiOm51bGwsInVzZXJfdHlwZSI6bnVsbCwidXNlcl9lbWFpbCI6bnVsbH0=','2017-11-22 16:14:17.463832'),('hehtuytaxcdv6z4jbxppb1ujmmf8iwlw','ZGQyYmRmNzU0NTQ2NDk5ZDJmNWVmOGNhMzhlMWU3YmJjZGMzMTQ1ZTp7InVzZXJfaWQiOjEsInVzZXJfdHlwZSI6MiwidXNlcl9lbWFpbCI6ImhpbWFua0BnbWFpbC5jb20ifQ==','2017-11-19 20:23:36.566660'),('mztxmuf22cyiy7b18eh2goceqo4xwswr','ZGQyYmRmNzU0NTQ2NDk5ZDJmNWVmOGNhMzhlMWU3YmJjZGMzMTQ1ZTp7InVzZXJfaWQiOjEsInVzZXJfdHlwZSI6MiwidXNlcl9lbWFpbCI6ImhpbWFua0BnbWFpbC5jb20ifQ==','2017-11-24 05:09:43.489048'),('qfjvn04k85l805tlvh951h3entw5pvdi','NTY4MGNjYzQ4YWU5YTVmYzAzMDA2NzQzMDQ5NDM5YTliM2M4YTEwOTp7InVzZXJfaWQiOjIsInVzZXJfdHlwZSI6MiwidXNlcl9lbWFpbCI6ImhhcnNoQGdtYWlsLmNvbSJ9','2017-11-20 19:42:23.499558'),('woiqoeahembxz62u64ded2ha6tn13n43','ZGQyYmRmNzU0NTQ2NDk5ZDJmNWVmOGNhMzhlMWU3YmJjZGMzMTQ1ZTp7InVzZXJfaWQiOjEsInVzZXJfdHlwZSI6MiwidXNlcl9lbWFpbCI6ImhpbWFua0BnbWFpbC5jb20ifQ==','2017-11-20 20:04:39.111978'),('x919mybo1m18u9wevtuxr84kw909frz6','YjZiY2Q2MWExOGUzZWNhZDBjNGVkOTBhNzM3ZDJiYjE2NDI4YTI5OTp7InVzZXJfaWQiOjEsInVzZXJfdHlwZSI6MCwidXNlcl9lbWFpbCI6ImhhcnNoQGdtYWlsLmNvbSJ9','2017-11-22 13:59:44.967778'),('yw66v2kx8hw0vpznro1fkupmx5cu4vis','Y2Y4YzQ0NjAwMDQ2MGZkYTUyNTMzNjViY2M2ODlkNTMzZmU0YjNmNDp7InVzZXJfaWQiOjQsInVzZXJfdHlwZSI6MSwidXNlcl9lbWFpbCI6ImFkYW1AcXVvcmEuY29tIn0=','2017-11-23 14:37:37.245629');
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-11-10 10:58:49

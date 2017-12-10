@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+
+{% block css %}
+<style type="text/css">
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+#overlay div {
+     width:300px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+</style>
+{% endblock %}
+
+{% block title %} {{title}} {% endblock %}
+
+
+{% block content %}
+
+
+<div class="row side-margin-zero">
+	<div class="col-xs-12 contacts">
+
+
+        <div class="col-md-12 ">
+
+        	<h1 class = "side_heading">{{title}}</h2>
+
+
+
+        </div>
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+  
+  <li role="presentation" class="active"><a href="#2" aria-controls="{{batch}} " role="tab" data-toggle="tab">{{title}}</a></li>
+
+</ul>
+
+
+  <div class="tab-content">
+
+	        		
+
+		<div role="tabpanel" class="tab-pane table-responsive fade active in" id="2">
+
+			<div class="col-md-12">
+	        	<p>{{title}}'s List View</p>
+	        </div>
+
+	        <div class="col-xs-12">
+	        	<div class="table-responsive">
+	        		<table id="list2" class="display" cellspacing="0" width="100%">
+	        			<thead>
+	        				<tr>
+	        					<th>SN</th>
+	        					{% for head in table_head %}
+	        					<th>{{head}}</th>
+	        					{% endfor %}
+	        					{% if request.session.user_type == 2 %}
+	        					<th>Delete object</th>
+								{% endif %}
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+
+	        				{% for each in  object_list %}
+	        				<tr>
+	        					{% if flag %}
+	        					<td></td>
+	        					{% endif %}
+	        					{% for info in each%}
+	        					<td>{{	info}}</td>
+	        					{% endfor %}
+	        					<td>
+	        						{% if request.session.user_type == 2 %}
+	        						<form name="choice" class="choiceform" method="POST">
+	        							{% csrf_token %}
+	        							<input style="display: none;" type="text" name="key" value="{{each.0}}" readonly>
+	        							
+	        							<button type="submit" class="btn btn-primary btn-sm send_choice">Delete</button>
+	        						</form>
+	        						{% endif %}
+	        					</td>
+
+	        				</tr>
+	        				{% endfor %}
+	        			</tbody>
+	        		</table>
+	        	</div>
+	        </div>
+			{% if request.session.user_type == 2 %}
+	        {% if form %}
+	        <button type="button" class="btn btn-primary btn-sm send_choice"  onclick="overlay()">New</button>
+	        {% endif %}
+	        {% endif %}
+		</div><!--/tab-panel-->
+
+
+
+</div><!--/tab-content-->
+
+
+
+<div id="overlay">
+  <div>
+    <form  method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input id="task_submit" type="submit" value="Submit" class="btn btn-default" />
+
+    </form>
+     <button type="button" class="btn btn-default"  onclick="overlay()">Close Dialog</button>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var t = $('#list1, #list2').DataTable({
+		"pageLength": 50,
+		"columnDefs": [ {
+			"searchable": true,
+			"orderable": true,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]]
+	});
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+	t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		cell.innerHTML = i+1;
+	} );
+} ).draw();
+function overlay() {
+  console.log("Function Called");
+  el = document.getElementById("overlay");
+  el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+(function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1900:2012",
+      // You can put more options here.
+
+    });
+  });
+
+</script>
+
+
+{% endblock %}

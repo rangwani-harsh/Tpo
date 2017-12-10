@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+
+{% block css %}
+<style type="text/css">
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:auto;
+     text-align:center;
+     z-index: 1000;
+}
+#overlay div {
+     width:400px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+</style>
+{% endblock %}
+
+{% block title %} Service {% endblock %}
+
+
+{% block content %}
+
+
+<div class="row side-margin-zero">
+	<div class="col-xs-12 contacts">
+
+
+        <div class="col-md-12 ">
+
+        	<h1 class = "side_heading">Services offered</h2>
+
+
+
+        </div>
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#1 " aria-controls="{{batch}} " role="tab" data-toggle="tab">Your Services</a></li>
+  <li role="presentation" class=""><a href="#2" aria-controls="{{batch}} " role="tab" data-toggle="tab">Services</a></li>
+
+</ul>
+
+
+  <div class="tab-content white-bg">
+
+    <div role="tabpanel" class="tab-pane table-responsive fade active in" id="1">
+
+	        <div class="col-md-12">
+
+	        	<p>Services for which you are responsible</p>
+	        </div>
+
+	        <div class="col-xs-12">
+	        	<div class="table-responsive">
+	        		<table id="list1" class="display" cellspacing="0" width="100%">
+	        			<thead>
+	        				<tr>
+	        					<th>SN</th>
+	        					<th>Name</th>
+	        					<th>Date</th>
+	        					<th>Time</th>
+	        					
+	        					<th>Payment</th>
+	        					
+	        					<th>Completed</th>
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+
+	        				{% for each in  my_service %}
+	        				<tr>
+	        					<td></td>
+	        					<td>{{each.service_name}}</td>
+	        					<td>{{each.service_date}}</td>
+	        					<td>{{each.service_time}}</td>
+	        					
+	        					<td>{{each.payment}}</td>
+	        					
+	        					<td>
+	        						<form name="choice" class="choiceform" method="POST">
+	        							{% csrf_token %}
+	        							<input style="display: none;" type="text" name="service_key" value="{{each.service_id}}" readonly>
+	        							
+	        							<button type="submit" class="btn btn-primary btn-sm send_choice">YES</button>
+	        						</form>
+	        					</td>
+	        					
+
+	        				</tr>
+	        				{% endfor %}
+	        			</tbody>
+	        		</table>
+	        	</div>
+	        </div>
+
+
+	        <button type="button" class="btn btn-primary btn-sm send_choice"  onclick="overlay()">New Service</button>
+		</div><!--/tab-panel-->
+
+		<div role="tabpanel" class="tab-pane table-responsive fade in" id="2">
+
+			<div class="col-md-12">
+	        	<p>Completed Services</p>
+	        </div>
+
+	        <div class="col-xs-12">
+	        	<div class="table-responsive">
+	        		<table id="list2" class="display" cellspacing="0" width="100%">
+	        			<thead>
+	        				<tr>
+	        					<th>SN</th>
+	        					<th>Name</th>
+	        					<th>Date</th>
+	        					<th>Time</th>
+	        					
+	        					<th>Payment</th>
+	        					
+	        					<th>Completed</th>
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+
+	        				{% for each in  other_service %}
+	        				<tr>
+	        					<td></td>
+	        					<td>{{each.service_name}}</td>
+	        					<td>{{each.service_date}}</td>
+	        					<td>{{each.service_time}}</td>
+	        					
+	        					<td>{{each.payment}}</td>
+	        					
+	        					<td>
+	        						{{each.responsible_id}}
+	        					</td>
+	        					
+
+	        				</tr>
+	        				{% endfor %}
+	        			</tbody>
+	        		</table>
+	        	</div>
+	        </div>
+
+
+		</div><!--/tab-panel-->
+
+
+
+</div><!--/tab-content-->
+
+
+
+<div id="overlay">
+  <div>
+    <form  method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input id="task_submit" type="submit" value="Submit" class="btn btn-default" />
+
+    </form>
+     <button type="button" class="btn btn-default"  onclick="overlay()">Close Dialog</button>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var t = $('#list1, #list2').DataTable({
+		"pageLength": 50,
+		"columnDefs": [ {
+			"searchable": true,
+			"orderable": true,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]]
+	});
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+	t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		cell.innerHTML = i+1;
+	} );
+} ).draw();
+function overlay() {
+  console.log("Function Called");
+  el = document.getElementById("overlay");
+  el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+</script>
+
+
+{% endblock %}

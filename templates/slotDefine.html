@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+</head>
+<body>
+ {% if messages %}
+    <center>
+    <div style="max-width:550px;">
+        {% for message in messages %}
+        <div {% if message.tags == 'error' %} class="alert alert-danger" role="alert" {% else %} class="alert alert-success" {% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+    </center>
+    {% endif %}
+<h3 align="center">Student SignUp Form</h3>
+<form action={%url 'studentSignUp' %} method = "POST">
+  {%csrf_token%}
+  {{ form.as_p }}
+  <button type="submit" name="submit">Register Me </input>
+</form> 
+
+
+
+</body>
+ <script>
+  $(function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1900:2012",
+      // You can put more options here.
+
+    });
+  });
+  </script>
+</html>

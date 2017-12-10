@@ -1,0 +1,339 @@
+{% load staticfiles %}{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Gaurav Yadav, Roll No. 13035019, Dept. Ceramic Engg">
+	<meta name="google-site-verification" content="ndZcC9YNUJQP-MWZnFa9pgCD8XZaivQ9a1UvTx4_3Fg" />
+	<script src= "https://www.payumoney.com/Api/REST/op/buttonScript" async="true" > </script>
+	<title> {% block title %} {% endblock title %}</title>
+	<link rel='shortcut icon' href='{% static "images/favicon.png" %}'>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	{% compress css %}
+	<!-- Bootstrap core CSS -->
+	<link href={% static "vendors/bootstrap/css/bootstrap.min.css" %} rel="stylesheet">
+	<!-- font-awesome css CSS -->
+	<link href={% static "vendors/font-awesome/css/font-awesome.min.css" %} rel="stylesheet">
+	<link href={% static "builds/css/template.css" %} rel="stylesheet">
+	<!-- Datatable-->
+	<link href={% static "vendors/DataTables-1.10.13/jquery.dataTables.min.css" %} rel="stylesheet">
+	<link href={% static "vendors/DataTables-1.10.13/dataTables.bootstrap.min.css" %} rel="stylesheet">
+	<!-- x-editable (bootstrap 3) -->
+	<link href={% static "vendors/bootstrap-editable/bootstrap-editable.css" %} rel="stylesheet">
+	<!-- CUSTOM CSS  should be ot bottom else create problem after compression -->
+	<link href={% static "builds/css/custom.css" %} rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href = {% static "builds/css/homecss.css"%}/>
+	<!--pybb forum post msg page use / Don't Remove-->
+	{{ form.media.css }}
+	{% endcompress %}
+	{% block css %} {% endblock css %}
+</head>
+
+<body background={% static "images/backiit.png" %}>
+
+	<p class="beta_label">Beta Version</p>
+	
+	<table    width=90%; height=140px; style="margin:auto;">
+			<tr >
+					<td>
+						<center>
+						<div id="header" style="font-size:35px;color:white;font-family:verdana;font-weight: bold;border-bottom:2px solid white;display:inline-block;">
+								Traning And Placement Cell
+						</div>
+						<div id="header2" style="font-size:22px;color:white;font-family:verdana; ">
+								Indian Institute Of Technology Varanasi (BHU)
+						</div>	
+					</center>
+					</td>	
+			</tr>	
+		    
+			<tr  >
+				<td width=100%; style = "font-size: 25px!important;"  >
+					<br>
+				    <div id="options">
+						<a href={% url "indexPage"%} >&nbsp; <i class="fa fa-home"></i> &nbsp;</a>  
+						{% if request.session.user_type != 1%}
+						<a href="{% url "companyView"%}" >&nbsp; <i class="fa fa-graduation-cap"></i> &nbsp;Companies &nbsp;</a>
+						{% endif %}
+						<a href="{% url "policies" %}" >&nbsp; <i class="fa fa-graduation-cap"></i> &nbsp;Policies &nbsp;</a>
+						<a href="{% url 'viewMembers' %}" >&nbsp; <i class="fa fa-group"></i>&nbsp;Student Team &nbsp;</a>
+						{% if request.session.user_type == 0 %}
+						<a href="{% url 'studentDashboard' %}">&nbsp; <i class="fa fa-group"></i>&nbsp;Dashboard &nbsp;</a>
+						{% elif request.session.user_type == 1%}
+						<a href="{% url 'companyDashboard' %}" >&nbsp; <i class="fa fa-group"></i>&nbsp;Dashboard &nbsp;</a>
+						{% endif %}
+						{% if request.session.user_type == 2%}
+						<a href="{% url 'adminView' %}" >&nbsp; <i class="fa fa-group"></i>&nbsp;Admin  View&nbsp;</a>
+						{% endif %}
+						<a href="">
+							
+						</a>
+						<ul class="nav navbar-nav navbar-right" >
+
+						<li class="hover_elem" >
+							<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color: white;">
+								{% if request.session.user_email %}
+								<i class="fa fa-user-circle-o" aria-hidden="true"></i> {{request.session.user_email}}
+								<span class=" fa fa-angle-down"></span>
+								{% else %}
+								<i class="fa fa-user-circle-o" aria-hidden="true"></i> Login/SignUp
+								<span class=" fa fa-angle-down"></span>
+								{% endif %}
+							</a>
+							<ul class="dropdown-menu dropdown-usermenu pull-right">
+								<li>
+									{% if not request.session.user_email %}
+									<a href="#" data-toggle="modal" data-target="#login-modal">
+										<i class="fa fa-sign-in" aria-hidden="true"></i> Sign In
+									</a>
+									{% endif %}
+								</li>
+								<li><a href="{% url 'studentSignUp' %}">
+									<i class="fa fa-user-plus" aria-hidden="true"></i> Student SignUp</a>
+								</li>
+
+								<li><a href="{% url 'companySignUp' %}">
+									<i class="fa fa-user-plus" aria-hidden="true"></i> Company SignUp</a>
+								</li>
+								{% if request.session.user_email %}
+								<li><a href="{% url 'logOut' %}">
+
+									<i class="fa fa-user-plus" aria-hidden="true"></i> LogOut</a>
+									
+								</li>
+								<li>
+									<a href="{% url 'ChangePass' %}">
+									
+									<i class="fa fa-user-plus" aria-hidden="true"></i> Change Password</a>
+								</li>
+								{% endif %}
+							</ul>
+						</li>
+
+					</ul>
+						
+					</div>
+				</td>	
+			</tr>
+		</table>	
+
+	{% block nav %}	{% endblock nav %}
+	{% include "login_modal_popup.html" %}
+
+	<div class="custom-container white-bg" id="master_wrapper">
+
+		{% if messages %}
+		<div class="text-center">
+			{% for message in messages %}
+			<div class="alert alert-info">
+				<strong></strong> {{message}}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+
+
+		{% block breadcrumb %}
+		{% endblock breadcrumb %}
+		{% block content %}
+		{% endblock content %}
+
+
+		<div class="support_form" id="support_form">
+
+			<div class="controller clearfix " id="controller">
+				<span>Need Help? (for students)</span>
+				<i class="fa fa-window-minimize" aria-hidden="true" id="chat_minimise"></i>
+				<i class="fa fa-close" aria-hidden="true" id="chat_close"></i>
+			</div>
+			<div class="chat_body" id="chat_body">
+				<p class="alert spl_text_main">
+					For any portal related issue/queries contact your TPR.
+					<!-- <br>
+					Still not resolved, write at:
+					<a href="mailto:web.tpo@iitbhu.ac.in">web.tpo@iitbhu.ac.in</a> -->
+				</p>
+			</div>
+		</div>
+
+
+	</div>
+
+	<footer id="footer">
+		<div class="footer-wrapper custom-container">
+
+			<p class="bottom_nav">
+				
+				
+				<span><a href="{% url "about"%}">Contact Us</a></span>
+			</p>
+
+			<p>
+				© {% now "Y" %} | Indian Institute of Technology (Banaras Hindu University) Varanasi. All Rights Reserved. |
+				<a href="http://iitbhu.ac.in/various/disclaimer.shtml" target="_blank"> Disclaimer</a>
+			</p>
+
+			
+
+		</div>
+
+	</footer>
+
+
+
+
+	{% compress js %}
+
+	<!-- jQuery -->
+	<script src={% static 'vendors/jquery/jquery.min.js' %}></script>
+	<!-- Bootstrap -->
+	<script src={% static 'vendors/bootstrap/js/bootstrap.min.js' %}></script>
+	<!-- CUSTOM JS -->
+	<script src={% static 'builds/js/custom.js' %}></script>
+	<!-- momentjs Necessary for Date of Birth field -->
+	<script src={% static "vendors/moment/moment.min.js" %}></script>
+	<!-- x-editable (bootstrap 3) -->
+	<script src={% static "vendors/bootstrap-editable/bootstrap-editable.js" %}></script>
+	<!--Essential pybb forum post msg page use / Don't Remove-->
+	{{ form.media.js }}
+	<!--PYBB Forum -->
+	<script src={% static 'pybb/js/jquery.formset.min.js' %}></script>
+	<script src={% static 'pybb/js/pybbjs.js' %}></script>
+	<!-- DataTables -->
+	<script src={% static "vendors/DataTables-1.10.13/jquery.dataTables.min.js" %}></script>
+	<script src={% static "vendors/DataTables-1.10.13/dataTables.bootstrap.min.js" %}></script>
+
+
+	{% endcompress %}
+	<script type="text/javascript">
+		$('.hover_elem').mouseover(function(){
+
+	    //If this item is already selected, forget about it.
+	    if ($(this).hasClass('active_hover_elem')) return;
+
+	    //Find the currently selected item, and remove the style class
+	    $('.active_hover_elem').removeClass('active_hover_elem');
+
+	    //Add the style class to this item
+	    $(this).addClass('active_hover_elem');
+
+	    //set the body to a different image
+	    // $('#body').css( 'background-image', 'url(' + $(this).data('bg') + ')' );
+	});
+
+		$('.hover_elem').mouseout(function(){
+			if ($(this).hasClass('active_hover_elem')){
+				var elem = $(this);
+			// console.log("hello");
+			setTimeout(function() {
+				elem.removeClass('active_hover_elem');
+			}, 500);
+		};
+	});
+</script>
+
+<!-- to retain alert dropdown after clicking red close icon -->
+<script>
+	$(document).on('click', 'i.fa.fa-times-circle.cut_read', function (e) {
+		e.stopPropagation();
+	});
+</script>
+
+<!-- for reading and unreading an alert message -->
+<script type="text/javascript">
+	$('.mark_read').click(function(e){
+		e.preventDefault();
+		$form_data = $(this).closest("form")[0];
+		var form = new FormData($form_data);
+
+		$this_button = $(this);
+		$(this).html('wait..').addClass('disabled');
+
+		$.ajax({
+			type: "POST",
+			// Use the name of the url not '/textbook/'
+			url: " #",
+			data: form,
+			cache: false,
+			contentType: false, //must, tell jQuery not to process the data
+			processData: false,
+			success: function(data) {
+				if (data) {
+
+					$this_button[0].closest(".key_parent").remove();
+				} else {
+			// Do something else here
+		}
+	},
+	error: function (rs, e) {
+		alert('Sorry, there was an error. Please try again');
+	}
+});
+
+	});
+
+
+
+	$('.unmark_read').click(function(e){
+		e.preventDefault();
+		$form_data = $(this).closest("form")[0];
+		var form = new FormData($form_data);
+
+		$this_button = $(this);
+		$(this).html('wait..').addClass('disabled');
+
+		$.ajax({
+			type: "POST",
+			// Use the name of the url not '/textbook/'
+			url: " #",
+			data: form,
+			cache: false,
+			//must, tell jQuery not to process the data
+			contentType: false,
+			processData: false,
+			success: function(data) {
+				if (data) {
+
+					$this_button[0].closest(".key_parent").remove();
+				} else {
+			// Do something else here
+		}
+	},
+	error: function (rs, e) {
+		alert('Sorry, there was an error. Please try again');
+	}
+});
+
+	});
+</script>
+
+<!-- must be outside compress else it will create problem, don't know why -->
+<script type="text/javascript">
+		//chat-box
+		$('#controller span').click(function () {
+			$("#support_form").addClass("active");
+		}, );
+
+		$('#chat_minimise').click(function () {
+			$("#support_form").removeClass("active");
+		}, );
+
+		$('#chat_close').click(function () {
+			$("#support_form").css("display","none");
+		}, );
+	</script>
+
+	{% block js %} {% endblock js %}
+
+</body>
+</html>
+
+
+

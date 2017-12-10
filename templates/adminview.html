@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+
+{% block css %}
+<style type="text/css">
+.panel-primary{
+	margin-left:auto; margin-right:0;	
+
+}
+.panel-body{
+	padding: 10px;
+
+}
+</style>
+{% endblock %}
+
+
+{% block title%}Administrator View{% endblock %}
+
+{% block content %}
+
+
+<div class="row side-margin-zero">
+	<div class="col-xs-12 contacts">
+
+
+        <div class="col-md-12 ">
+
+        	<h1 class = "side_heading">Admin</h2>
+		
+
+
+
+        </div>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Admin View</h1> 
+    <p>This page is for team members</p> 
+  </div>
+  
+</div>
+
+
+
+<div class="row">
+	<div class="col-sm-2"></div>
+	<div class = "col-sm-4">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Student Details</div>
+    		<div class="panel-body">
+			<div class="btn-group-vertical">
+		  <a href = {% url 'verifyWillingness'%} type="button" class="btn btn-primary">Willingness Verify</a>
+		  <br>
+		  <a href = {% url 'verifyAcademicDetail'%} type="button" class="btn btn-primary">Academic Details</a>
+		  <br>
+		  <a href = {% url 'viewStudents'%} type="button" class="btn btn-primary">Student Details</a>
+		  <br>
+		</div>
+		</div>
+	</div>
+  	</div>	
+  	<div class="col-sm-4">
+  		<div class="panel panel-primary">
+			<div class="panel-heading">Company Details</div>
+    		<div class="panel-body">
+			<div class="btn-group-vertical">
+		  <a href="{% url "companyView" %} type="button" class="btn btn-primary">Company Details</a><br>
+		  <a href ="{% url "slotDefine" %}" type="button" class="btn btn-primary">Slot Details</a><br>
+		  <a href = "{% url "willingnessAdmin"%}" type="button" class="btn btn-primary">Willingness Details</a><br>
+
+		</div>
+		</div>
+
+  		</div>
+
+  	</div>
+  	<div class="col-sm-2"></div>
+  </div>
+  	<div class="row">
+  		<div class="col-sm-2"></div>
+  		<div class = "col-sm-8">
+  		<div class="panel panel-primary">
+			<div class="panel-heading">Other Details</div>
+    		<div class="panel-body">
+			<div class="btn-group-horizontal">
+		  
+		  <a href = "{% url "viewMembers"%}" type="button" class="btn btn-primary">Member Details</a>
+		  <a href = "{% url "generateNotification" %}" type="button" class="btn btn-primary">Notification Details</a>
+		   <a href = "{% url "generateService"%}" type="button" class="btn btn-primary">Service Details</a><br>
+		</div>
+		</div>
+
+  		</div>
+  		</div>
+  	</div>		
+
+
+
+	
+
+
+</div>   
+
+    
+    
+    
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var t = $('#list1, #list2').DataTable({
+		"pageLength": 50,
+		"columnDefs": [ {
+			"searchable": true,
+			"orderable": true,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]]
+	});
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+	t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		cell.innerHTML = i+1;
+	} );
+} ).draw();
+function overlay() {
+  console.log("Function Called");
+  el = document.getElementById("overlay");
+  el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+</script>
+
+
+{% endblock %}

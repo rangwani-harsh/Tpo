@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+
+{% block css %}
+<style type="text/css">
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+#overlay div {
+     width:300px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+</style>
+{% endblock %}
+
+{% block title %} Academic Details {% endblock %}
+
+
+{% block content %}
+
+
+<div class="row side-margin-zero">
+	<div class="col-xs-12 contacts">
+
+
+        <div class="col-md-12 ">
+
+        	<h1 class = "side_heading">Academic Details of Students</h2>
+
+
+
+        </div>
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#1 " aria-controls="{{batch}} " role="tab" data-toggle="tab">Unverified Details</a></li>
+  <li role="presentation" class=""><a href="#2" aria-controls="{{batch}} " role="tab" data-toggle="tab">Verified Details</a></li>
+
+</ul>
+
+
+  <div class="tab-content">
+
+    <div role="tabpanel" class="tab-pane table-responsive fade active in" id="1">
+
+	        <div class="col-md-12">
+
+	        	<p>Unverified academic details</p>
+	        </div>
+
+	        <div class="col-xs-12">
+	        	<div class="table-responsive">
+	        		<table id="list1" class="display" cellspacing="0" width="100%">
+	        			<thead>
+							<tr>
+								<th>SN</th>
+								<th> Roll No.</th>
+								<th>Department</th>
+								<th>Course</th>
+								<th>Semester</th>
+								<th>Semester GPA</th>
+								<th>Summer Updated GPA</th>
+								<th>Backlogs</th>
+								<th>Verify /Reject</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							{% for each in unverified_list %}
+							<tr>
+								<td></td>
+								<td>{{each.roll_no}}</td>
+								<td>{{each.department}}</td>
+								<td>{{each.course}}</td>
+								<td>{{each.semester}}</td>
+								<td> {{each.sem_cgpa}} </td>
+								<td>{{each.summer_cgpa}} </td>
+								<td>{{each.backlogs}}</td>
+								<td>
+	        						<form name="choice" class="choiceform" method="POST">
+	        							{% csrf_token %}
+
+	        							<input style="display: none;" type="text" name="student_key" value="{{each.student_id}}" readonly>
+	        							<input style="display: none;" type="text" name="semester_key" value="{{each.semester}}" readonly>
+	        							
+	        							<button type="submit" class="btn btn-primary btn-sm send_choice" name = "action" value = "yes">Verify</button>
+	        							<button type="submit" class="btn btn-primary btn-sm send_choice" name = "action" value = "no">Reject</button>
+	        						</form>
+	        					</td>
+								
+								
+
+							</tr>
+
+							{% endfor %}
+						</tbody>
+	        		</table>
+	        	</div>
+	        </div>
+
+
+	       
+		</div><!--/tab-panel-->
+
+		<div role="tabpanel" class="tab-pane table-responsive fade in" id="2">
+
+			<div class="col-md-12">
+	        	<p>Verified Academic Details</p>
+	        </div>
+
+	        <div class="col-xs-12">
+	        	<div class="table-responsive">
+	        		<table id="list2" class="display" cellspacing="0" width="100%">
+	        			<thead>
+							<tr>
+								<th>SN</th>
+								<th> Roll No.</th>
+								<th>Department</th>
+								<th>Course</th>
+								<th>Semester</th>
+								<th>Semester GPA</th>
+								<th>Summer Updated GPA</th>
+								<th>Backlogs</th>
+								<th>Verified By.</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							{% for each in verified_list %}
+							<tr>
+								<td></td>
+								<td>{{each.roll_no}}</td>
+								<td>{{each.department}}</td>
+								<td>{{each.course}}</td>
+								<td>{{each.semester}}</td>
+								<td> {{each.sem_cgpa}} </td>
+								<td>{{each.summer_cgpa}} </td>
+								<td>{{each.backlogs}}</td>
+								<td>
+	        						{{each.verified_by}}
+	        					</td>
+								
+								
+
+							</tr>
+
+							{% endfor %}
+						</tbody>
+	        		</table>
+	        	</div>
+	        </div>
+
+
+		</div><!--/tab-panel-->
+
+
+
+</div><!--/tab-content-->
+
+
+
+<div id="overlay">
+  <div>
+    <form  method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input id="task_submit" type="submit" value="Submit" class="btn btn-default" />
+
+    </form>
+     <button type="button" class="btn btn-default"  onclick="overlay()">Close Dialog</button>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var t = $('#list1, #list2').DataTable({
+		"pageLength": 50,
+		"columnDefs": [ {
+			"searchable": true,
+			"orderable": true,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]]
+	});
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+	t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		cell.innerHTML = i+1;
+	} );
+} ).draw();
+function overlay() {
+  console.log("Function Called");
+  el = document.getElementById("overlay");
+  el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,367 @@
+
+
+
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+Company Dashboard
+
+{% endblock %}
+{% block css %}
+<link rel = "text/css" href = "user_details.css" >
+<style type="text/css">
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+     display: inline-block;
+}
+#overlay div {
+     width:400px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+#overlay2 {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+     display: inline-block;
+}
+#overlay2 div {
+     width:400px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 4c50px}
+    
+    /* Set gray backgrouund color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+    .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 50%;
+    border-radius: 5px;
+    float: left;
+    height:auto;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+img {
+    border-radius: 5px 5px 0 0;
+}
+
+.container {
+    padding: 2px 16px;
+}
+@media only screen and (max-width: 500px) {
+    .card {
+        width: 100%;
+    }
+}
+</style>
+<link href={% static "builds/css/user_details.css" %} rel="stylesheet">
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="row content">
+  <div class="container-fluid text-center">    
+    <div class="col-sm-2 ">
+        
+     </div>
+
+    
+        <div class="col-sm-8 text-left user-details">
+              <div class="user-image">
+                  <img src="http://www.freeiconspng.com/uploads/am-a-19-year-old-multimedia-artist-student-from-manila--21.png" alt="Profile" title="Karan Singh Sisodia" class="img-circle">
+              </div>
+              <div class="user-info-block">
+                  <div class="user-heading">
+                      <h3>{{ company.name }}</h3>
+                      <span class="help-block">{{ request.session.user_email }}</span>
+                  </div>
+                  <ul class="navigation">
+                      <li class="active">
+                          <a data-toggle="tab" href="#information">
+                              <span class="glyphicon glyphicon-user"></span>
+                          </a>
+                      </li>
+                      <li>
+                          <a data-toggle="tab" href="#settings">
+                              <span class="glyphicon glyphicon-cog"></span>
+                          </a>
+                      </li>
+                      <li>
+                          <a data-toggle="tab" href="#email">
+                              <span class="glyphicon glyphicon-envelope"></span>
+                          </a>
+                      </li>
+                      <li>
+                          <a data-toggle="tab" href="#events">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                          </a>
+                      </li>
+                  </ul>
+                  <div class="user-body">
+                          <div class="tab-content">
+                          <div id="information" class="tab-pane active">
+                               <h4>User Information</h4>
+                              <h3>Name :{{company.company_name}}</h3><br>
+                              <h3>Email.{{company.email}}</h3><br>
+                              <h3>Ppt Date:{{company.ppt_date}}</h3><br>
+                              <h3>Package CTC:{{company.package_ctc}}</h3><br>
+                              <h3>Package Take Home:{{company.package_take_home}}</h3><br>
+                              <button type="button" class="btn btn-default btn-lg"  onclick="overlay()">Specify Criteria</button>
+
+                          </div>
+                         
+                          <div id="settings" class="tab-pane">
+                                   <h4>Available Services</h4>
+                                    {% for each in services %}
+                                        <a  style="text-decoration: none;"  onclick = "overlayfunc({{each.service_id}})">
+                                        <div class="card">
+                                          <div class="container">
+                                            <h4><b>Service Name:</b> {{each.service_name}}</h4> 
+                                            <p>Service  Date:{{each.service_date}}</p>
+                                            <p>Service Time:{{each.service_name}}</p>
+                                            <p>Responsible Person:{{each.responsible}}</p>
+                                            <p>Service Discription:{{ each.description}}</p>
+                                          </div>
+                                        </div>
+                                        </a>
+                                        {% endfor %}
+                                        
+
+
+                                
+                          </div>
+                          <div id="email" class="tab-pane">
+                              <h4>Notification</h4>
+
+                              
+                                    <div id="postlist">
+                                        {% for post in notifications%}
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <div class="text-center">
+                                                    <div class="row">
+                                                        <div class="col-sm-9">
+                                                            <h3 class="pull-left">List of Notifications</h3>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <h4 class="pull-right">
+                                                            <small><em>{{ post.date }}<br>{{ post.time}}</em></small>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        <div class="panel-body">
+                                            {{ post.content }}
+                                        </div>
+                                        
+                                        <div class="panel-footer">
+                                            {% if post.allowed_students %}
+                                            <span class="label label-default">Company Notification</span>
+                                            {% else %} 
+                                            <span class="label label-default">Student Notification</span> 
+                                            {% endif %}
+                                            
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+
+                                </div>
+                            
+                        </div>
+                          <div id="events" class="tab-pane">
+                             <h4>Purchased Services</h4>
+                                 
+                                    {% for each in purchased_services %}
+                                        <a href="{{i.id}}" style="text-decoration: none;" data-toggle="modal" data-target="#myModal">
+                                        <div class="card">
+                                          <div class="container">
+                                            <h4><b>Service Name:</b> {{each.service_name}}</h4> 
+                                            <p class="card-text">Service  Date:{{each.service_date}}</p>
+                                            <p>Service Time:{{each.service_name}}</p>
+                                            <p>Cost:{{each.cost}}</p>
+                                            <p class="card-text">Service Discription:{{ each.description}}</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                          </div>
+                                        </div>
+                                        </a>
+                                        {% endfor %}
+                                      
+                                        
+
+
+                                
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    
+    </div>
+
+</div>
+<!-- For Dialog box -->
+{% if service %}
+<div id="overlay" style = "visibility : visible;">
+    <div>
+
+            <h4><b>Service Name:</b> {{service.service_name}}</h4> 
+            <p class="card-text">Service  Date:{{service.service_date}}</p>
+            <p>Service Time:{{service.service_name}}</p>
+            <p>Cost:{{service.payment}}</p>
+            <p class="card-text">Service Discription:{{service.description}}</p>
+            
+            <span class='pm-button' id='1F90B3DF4342D8665E37E74EC846F082' onclick="company()">
+              <span class="state active">
+                <input type="button" class="btn btn-default" width="131" height="37" value = "Pay Now">
+              </span>
+              <span class="state clicked" style="display:none" >
+                <input type="button" src="https://file.payumoney.com/images/payby_payumoney/new_buttons/submitted/21.png" width="131" height="37">
+              </span>
+            </span>
+        
+     <button type="button" class="btn btn-default"  onclick="overlayfunc()">Close Dialog</button>
+    </div>
+</div>
+{% endif %}
+{% if form %}
+<div id="overlay2">
+  <div>
+    <form  method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input id="task_submit" class = "btn btn-default" type="submit" value="Submit"/>
+
+    </form>
+     <button type="button" class="btn btn-default"  onclick="overlay()">Close Dialog</button>
+  </div>
+</div>
+
+{% endif %}
+<!-- Purchase Modal -->
+ <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+d        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+{% endblock %}
+{% block js%}
+<script type="text/javascript">
+    var t = $('#acad_table,#company_table').DataTable({
+        "pageLength": 50,
+        "columnDefs": [ {
+            "searchable": true,
+            "orderable": true,
+            "targets": 0
+        } ],
+        "order": [[ 1, 'asc' ]]
+    });
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+    t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        cell.innerHTML = i+1;
+    } );
+} ).draw();
+function overlay() {
+    console.log("Function Called");
+    el = document.getElementById("overlay2");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+function overlayfunc(id) {
+    console.log(id);
+    if (id)
+    window.location.href = id;
+
+    el = document.getElementById("overlay");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+{% if service %}
+function company(){
+    window.PUM.setData({{service.payment}}, {{service.service_id}},"{{service.service_name}}");
+    window.PUM.pay();
+
+}
+{% endif %}
+
+</script>
+
+
+
+{% endblock %}
+
+
+</html>

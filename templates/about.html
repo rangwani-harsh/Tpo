@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Login{% endblock %}
+{% block css %}
+<style type="text/css">
+#overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+#overlay div {
+     width:400px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:left;
+}
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="custom-container white-bg" id="master_wrapper"><div class="row side-margin-zero"><div class="col-xs-12 contacts"><div class="col-md-12 "><h2 class="side_heading">Contact Us</h2></div><div class="col-md-12 "><div class="col-md-4 contact_section person"><h2>Contact Person</h2><p>Dr. Anil Kumar Agarwal<br>Training &amp; Placement Officer</p><h2>Support Office Staff</h2><p>Sri Gopalakrishnan, Sri K. Chanda &amp; Sri A. K. Verma</p></div><div class="col-md-4 contact_section address"><h2>Address</h2><p>Training &amp; Placement Cell,<br>Indian Institute of Technology (BHU) Varanasi,<br>India - 221 005</p></div><div class="col-md-4 contact_section email_and_all"><h2>Contacts</h2><p>Email : tpo@itbhu.ac.in<br>Phone : +91-542-2368160 | +91-542-2369162</p></div></div><div class="col-md-12 "><hr><h2><strong>HOW TO REACH IIT (BHU) VARANASI</strong></h2><p>Varanasi is the cultural capital of India and the melting pot of Indian civilization. Varanasi or Banaras has a well-developed transport network and is well connected to all the major Indian cities and states by air, road and rail.</p><h3>REACHING IIT (BHU) VARANASI:</h3><p><strong>1) BY AIR:</strong>&nbsp;The approachable airport to the city is Babatpur which is approximately 35 km away from BHU. One can easily get a direct flight to Varanasi from cities like Delhi, Agra, Khajurao, Kolkata, Mumbai, Lucknow and Bhubaneshwar airport. The taxi charges from Airport to BHU Campus are about INR 600/-.</p><p><strong>2) BY RAIL:</strong>&nbsp;Since Varanasi lies in the heartland of the North Indian plains, it is connected to major cities of India via rail. There are two railway stations in Varanasi, Varanasi Cantt. Rly. Station (Junction) and Mughalsarai Rly. Station.</p><p><strong>From Varanasi Cantt. Rly. Station (Junction) to BHU:</strong></p><p>BHU Campus is about 10 km. from Varanasi Cantt. Railway Station. Round the clock Auto/Taxi services are available from Varanasi Cantt. Station to BHU (Lanka). The tentative charges are for reserve auto, Rs.120-150/-, shared auto Rs. 15/- and for taxi, Rs. 300/- to 350/-</p><p><strong>From Mughalsarai Rly. Station to BHU:</strong></p><p>BHU Campus is about 20 km. from Mughalsarai Railway Station. Round the clock Auto/Taxi services are available from Mughal Sarai Rly. Station to BHU (Lanka). The tentative charges are for reserve auto INR 200/-, Shared auto Rs. 35/- and for taxi, INR 300/- to 350/-</p><hr></div><div class="col-md-12 "><div class="col-md-12 web_report"><h2>Web Administrator</h2><p>For technical support concerning TPO Portal, contact Web Administrator at web.tpo@itbhu.ac.in</p></div></div></div></div><div class="support_form" id="support_form"><div class="controller clearfix " id="controller"><span>Need Help? (for students)</span> <i aria-hidden="true" class="fa fa-window-minimize" id="chat_minimise"></i> <i aria-hidden="true" class="fa fa-close" id="chat_close"></i></div><div class="chat_body" id="chat_body"><p class="alert spl_text_main">For any portal related issue/queries contact your TPR.</p></div></div></div>
+
+
+
+{% endblock %}

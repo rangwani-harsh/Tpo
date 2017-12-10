@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load staticfiles%}
+
+{% block css %}
+{% endblock %}
+
+{% block title %} Willingness {% endblock %}
+
+
+{% block content %}
+
+
+<div class="row side-margin-zero">
+	<div class="col-xs-12 contacts">
+
+
+        <div class="col-md-12 ">
+
+        	<h1 class = "side_heading">Willingness</h2>
+
+
+
+        </div>
+
+
+
+
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#1 " aria-controls="{{batch}} " role="tab" data-toggle="tab">Unverifed</a></li>
+  <li role="presentation" class=""><a href="#2" aria-controls="{{batch}} " role="tab" data-toggle="tab">Verified</a></li>
+
+</ul>
+
+
+  <div class="tab-content">
+
+    <div role="tabpanel" class="tab-pane table-responsive fade active in" id="1">
+
+	        <div class="col-md-12">
+
+	        	<p>Unverified Willingness</p>
+	        </div>
+
+	        <div class="col-xs-12">
+	        	<div class="table-responsive">
+	        		<table id="list1" class="display" cellspacing="0" width="100%">
+	        			<thead>
+	        				<tr>
+	        					<th>SN</th>
+	        					<th>Name</th>
+	        					<th>Course</th>
+	        					<th>Type</th>
+	        					
+	        					<th>Preference</th>
+	        					<th>Student Name</th>
+	        					<th>Verify!!</th>
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+
+	        				{% for each in  unverifiedList %}
+	        				<tr>
+	        					<td></td>
+	        					<td>{{each.company_name}}</td>
+	        					<td>{{each.course}}</td>
+	        					<td>{{each.type}}</td>
+	        					
+	        					<td>{{each.preference}}</td>
+	        					<td>{{each.student_name}}</td>
+	        					<td>
+	        						<form name="choice" class="choiceform" method="POST">
+	        							{% csrf_token %}
+	        							<input style="display: none;" type="text" name="company_key" value="{{each.company_id}}" readonly>
+	        							<input style="display: none;" type="text" name="student_key" value="{{each.student_id}}" readonly>
+	        							<button type="submit" class="btn btn-primary btn-sm send_choice">Verify</button>
+	        						</form>
+	        					</td>
+	        					
+
+	        				</tr>
+	        				{% endfor %}
+	        			</tbody>
+	        		</table>
+	        	</div>
+	        </div>
+
+
+
+		</div><!--/tab-panel-->
+
+		<div role="tabpanel" class="tab-pane table-responsive fade in" id="2">
+
+			<div class="col-md-12">
+	        	<p>Verified Willingness</p>
+	        </div>
+
+	        <div class="col-xs-12">
+	        	<div class="table-responsive">
+	        		<table id="list2" class="display" cellspacing="0" width="100%">
+	        			<thead>
+	        				<tr>
+	        					<th>SN</th>
+	        					<th>Name</th>
+	        					<th>Course</th>
+	        					<th>Type</th>
+	        					
+	        					<th>Preference</th>
+	        					<th>Student Name</th>
+	        					<th>Verified by</th>
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+
+	        				{% for each in  verifiedList %}
+	        				<tr>
+	        					<td></td>
+	        					<td>{{each.company_name}}</td>
+	        					<td>{{each.course}}</td>
+	        					<td>{{each.type}}</td>
+	        					
+	        					<td>{{each.preference}}</td>
+	        					<td>{{each.student_name}}</td>
+	        					<td>
+	        						{{each.verified}}</td>
+	        					
+
+	        				</tr>
+	        				{% endfor %}
+	        			</tbody>
+	        		</table>
+	        	</div>
+	        </div>
+
+
+		</div><!--/tab-panel-->
+
+
+
+</div><!--/tab-content-->
+
+
+
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var t = $('#list1, #list2').DataTable({
+		"pageLength": 50,
+		"columnDefs": [ {
+			"searchable": true,
+			"orderable": true,
+			"targets": 0
+		} ],
+		"order": [[ 1, 'asc' ]]
+	});
+//for automatic numbering of table rows which dynamically changes on search and sorting
+t.on( 'order.dt search.dt', function () {
+	t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		cell.innerHTML = i+1;
+	} );
+} ).draw();
+</script>
+
+
+{% endblock %}
